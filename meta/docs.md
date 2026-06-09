@@ -23,9 +23,9 @@
 
 | Option | Description |
 | - | - |
-| time | Move generation time limit |
-| min_depth | Minimum search depth in move generation. Overrides the time limit |
-| max_depth | Maximum search depth in move generation |
+| time | Move generation time limit in milliseconds |
+| min_depth | Minimum search depth (plies) in move generation. Overrides the time limit |
+| max_depth | Maximum search depth (plies) in move generation |
 
 ## Board State
 
