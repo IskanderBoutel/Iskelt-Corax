@@ -26,7 +26,6 @@ int PW[4] = {1, 1, 2, 4};                // Piece phase weights
 int P_DP = -25;                                      // Double pawn
 int P_IP = -25;                                      // Isolated pawn
 int P_PP[8] = {0, 5, 10, 20, 40, 60, 80, 100};       // Passed pawn bonus (rank based)
-int P_CP = 25;                                       // Chained pawn bonus
 int B_DB = 25;                                       // Double bishop
 int K_DP[8] = {0, 0, -5, -20, -40, -40, -40, -40};   // King defender pawn (castles) (rank based)
 int K_MP = -50;                                      // Missing pawn (castle)
