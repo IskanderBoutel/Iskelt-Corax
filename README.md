@@ -1,5 +1,5 @@
 # Iskelt Corax
-A chess engine
+A hand-crafted CLI chess engine written in C++.
 
 ## Overview
 
