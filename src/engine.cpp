@@ -377,7 +377,7 @@ int Engine::determineBestMove (uint8_t d, Move *move, int alpha, int beta, int p
     for (uint8_t i = 0; i < n; i++) {
         scores[i] = scoreMove(moves[i], ply, phase);
 
-        if (moves[i].to == entry.move.to && moves[i].from == entry.move.from) {
+        if (board.simpleMovesEq(moves[i], entry.move)) {
             scores[i] += 100000;
         }
     }
@@ -610,11 +610,11 @@ int Engine::generateMove (int time, uint8_t min_depth, uint8_t max_depth, Move *
 int Engine::scoreMove (Move &move, int ply, uint8_t phase) {
     int score = 0;
 
-    if (move.to == killers[ply][0].to && move.from == killers[ply][0].from) {
+    if (board.simpleMovesEq(move, killers[ply][0])) {
         score += 200;
     }
 
-    if (move.to == killers[ply][1].to && move.from == killers[ply][1].from) {
+    if (board.simpleMovesEq(move, killers[ply][1])) {
         score += 100;
     }
 
