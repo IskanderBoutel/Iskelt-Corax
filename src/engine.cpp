@@ -365,7 +365,7 @@ int Engine::determineBestMove (uint8_t d, Move *move, int alpha, int beta, int p
         return quiesce(alpha, beta, ply + 1);
     }
 
-    bool check = board.state.t ? board.isBlackSquareAttacked(__builtin_ctzll(board.pieces[BK])) : board.isWhiteSquareAttacked(__builtin_ctzll(board.pieces[WK]));
+    bool check = board.isInCheck();
     uint8_t phase = (PW[0] * __builtin_popcountll(board.pieces[WN] | board.pieces[BN])) + (PW[1] * __builtin_popcountll(board.pieces[WB] | board.pieces[BB])) + (PW[2] * __builtin_popcountll(board.pieces[WR] | board.pieces[BR])) + (PW[3] * __builtin_popcountll(board.pieces[WQ] | board.pieces[BQ]));
 
     if (d > 2 && !check) {
@@ -414,7 +414,7 @@ int Engine::determineBestMove (uint8_t d, Move *move, int alpha, int beta, int p
         if (board.applyMove(moves[i])) {
             legal++;
             int lb = i ? -1 - alpha : -beta;
-            bool ncheck = board.state.t ? board.isBlackSquareAttacked(__builtin_ctzll(board.pieces[BK])) : board.isWhiteSquareAttacked(__builtin_ctzll(board.pieces[WK]));
+            bool ncheck = board.isInCheck();
             int score = -determineBestMove(d - 1, NULL, lb, -alpha, ply + 1);
 
             if (i && score > alpha) {
@@ -501,7 +501,7 @@ int Engine::determineBestMove (uint8_t d, Move *move, int alpha, int beta, int p
 }
 
 int Engine::quiesce (int alpha, int beta, int ply) {
-    bool check = board.state.t ? board.isBlackSquareAttacked(__builtin_ctzll(board.pieces[BK])) : board.isWhiteSquareAttacked(__builtin_ctzll(board.pieces[WK]));
+    bool check = board.isInCheck();
     uint8_t phase = (PW[0] * __builtin_popcountll(board.pieces[WN] | board.pieces[BN])) + (PW[1] * __builtin_popcountll(board.pieces[WB] | board.pieces[BB])) + (PW[2] * __builtin_popcountll(board.pieces[WR] | board.pieces[BR])) + (PW[3] * __builtin_popcountll(board.pieces[WQ] | board.pieces[BQ]));
     int cs = evaluatePosition();
 
@@ -546,7 +546,7 @@ int Engine::quiesce (int alpha, int beta, int ply) {
         if (board.applyMove(moves[i])) {
             legal++;
 
-            if ((board.state.t ? board.isBlackSquareAttacked(__builtin_ctzll(board.pieces[BK])) : board.isWhiteSquareAttacked(__builtin_ctzll(board.pieces[WK]))) || check || board.isCapture(moves[i])) {
+            if (board.isInCheck() || check || board.isCapture(moves[i])) {
                 int score = -quiesce(-beta, -alpha, ply + 1);
 
                 if (score >= beta) {
